@@ -1,0 +1,1 @@
+echo "Executing pre_install.sh from `hostname` triggered by image-propogation"

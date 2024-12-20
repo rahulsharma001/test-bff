@@ -1,0 +1,11 @@
+{{- include "generic-chart.ingress" . }}
+---
+{{- include "generic-chart.service" . }}
+---
+{{- include "generic-chart.deployment" . }}
+---
+{{- include "generic-chart.hpa" . }}
+---
+{{- include "generic-chart.pre-install" . }}
+---
+{{- include "generic-chart.post-install" . }}

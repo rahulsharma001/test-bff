@@ -1,0 +1,117 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: 406255921449.dkr.ecr.ap-south-1.amazonaws.com/ceebffgo
+  tag: "latest"
+
+nameOverride: ""
+fullnameOverride: ""
+
+dnsPolicy: "Default"
+
+# This can used for setting any env variables
+#myEnv:	
+#  - name: MY_POD_NAME
+#    valueFrom:
+#      fieldRef:
+#        apiVersion: v1
+#        fieldPath: metadata.name
+#  - name: JAVA_OPTS
+#    value: -javaagent:/home/app/libs/elastic-apm-agent.jar -Delastic.apm.service_name=$(MY_POD_NAME)
+
+
+myVolumes:
+  volumes:
+    - name: application-config
+      configMap:
+        name: ceebffgo
+    - name: another-application-config
+      configMap:
+        name: ceebffgo
+  volumeMounts:
+    - name: application-config
+      mountPath: "/etc/ceebffgo.properties"
+      subPath: ceebffgo.properties
+      readOnly: true
+
+
+
+# Health check url path
+readinessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 60
+  timeoutSeconds: 60
+  failureThreshold: 2
+  httpGet:
+    path: /healthcheck
+    port: http
+
+livenessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 60
+  timeoutSeconds: 60
+  failureThreshold: 2
+  httpGet:
+    path: /healthcheck
+    port: http
+
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+
+
+
+resources:
+   limits:
+     cpu: 250m
+     memory: 512Mi
+   requests:
+     cpu: 250m
+     memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+
+# Used for adding any custom labels on the pods
+#podLabels:
+#  app_name: event-logger
+
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: false
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "default"
+

@@ -1,0 +1,1 @@
+echo "Executing post_install.sh from `hostname` triggered by image-propogation"
