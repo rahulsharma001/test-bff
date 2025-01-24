@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"cee-bff-go/internal/demo"
+	"cee-bff-go/internal/utils"
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -24,7 +24,7 @@ func DemoMiddleware() gin.HandlerFunc {
 				// Parse the JSON data into the map
 				err := json.Unmarshal([]byte(dummyData), &result)
 				if err != nil {
-					log.Fatal(err)
+					utils.Log(err)
 				}
 
 				// Return the dummy data and do not proceed to the actual handler

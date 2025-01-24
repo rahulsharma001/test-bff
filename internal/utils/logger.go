@@ -3,9 +3,9 @@ package utils
 import (
 	"fmt"
 	"log"
-	"runtime"
 	"sync"
 	"time"
+
 	"github.com/fluent/fluent-logger-golang/fluent"
 	"github.com/spf13/viper"
 )
@@ -24,7 +24,8 @@ func InitializeFluent() *fluent.Fluent {
 			FluentPort: viper.GetInt("FLUENT_PORT"),
 		})
 		if err != nil {
-			log.Fatalf("Failed to connect to Fluentd: %v", err)
+			Log(fmt.Sprintf("Failed to connect to Fluentd: %v", err))
+
 		}
 	})
 	return loggerInstance
@@ -43,18 +44,12 @@ func Log(message interface{}) {
 	// Send the log message with the given tag
 
 	tag := viper.GetString("FLUENT_TAG")
-
-	pc, _, line, _ := runtime.Caller(1)
-
-	funcName := runtime.FuncForPC(pc).Name()
-
 	// Convert the string message into a structured log map
 	logData := map[string]interface{}{
-		"function":  funcName,                        // Log the function name
-		"line":      line,                            // Log the line number
-		"message":   message,                         // Log the message
-		"timestamp": time.Now().Format(time.RFC3339), // Add a timestamp
-		"level":     "info",                          // You can add a log level if desired
+		"request_id": viper.GetString("request_id"),
+		"message":    message,                         // Log the message
+		"timestamp":  time.Now().Format(time.RFC3339), // Add a timestamp
+		"level":      "info",                          // You can add a log level if desired
 	}
 
 	err := logger.Post(tag, logData)

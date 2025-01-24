@@ -1,0 +1,12 @@
+{
+	"NETCORE_API_ENDPOINT": "https://netcoreapi-gateway-stg1.netcorein.com/v5/",
+	"NCS_ENDPOINT": "https://ncs-stg1.netcorein.com/",
+	"DEMO_ENABLED" : false,
+	"FLUENT_HOST": "10.78.2.130",
+	"FLUENT_PORT": 24224,
+	"FLUENT_TAG": "kube_rewrite.stg1.ceebffgo.ceebffgo.stdout",
+	"CLIENT_IDENTIFIER": "{\"ct\":\"4VMaf9tzTW26\/Y7K3XLQfQ==\",\"iv\":\"1b49180164631d3ed69eccb21a0ae4b9\",\"s\":\"f6fee91208b5c459\"}",
+	"CLIENT_SECRET": "{\"ct\":\"2xWTx94q\/8dtvvFMYQ\/aJ1epcRgACJ7xWezc4AgjiFwAdJpFxCjVlpjFNUYexUal\",\"iv\":\"be589f7f8ae1267ab73ede68fd099f0b\",\"s\":\"9c6c18fc16627d86\"}",
+	"ORIGIN_HOST" : "https://cdnappstg1.netcoresmartech.com",
+	"ENVIRONMENT": "STG1"
+}

@@ -19,7 +19,6 @@ type CommonResponse struct {
 	Message    string      `json:"message"`
 	Data       interface{} `json:"data,omitempty"`
 	Error      interface{} `json:"error,omitempty"`
-	Count      *int        `json:"count,omitempty"`
 }
 
 // Respond is a common function to return a JSON response
@@ -31,7 +30,6 @@ func SetResponse(c *gin.Context, commonResp CommonResponse) {
 		Message:    commonResp.Message,
 		Data:       commonResp.Data,
 		Error:      commonResp.Error,
-		Count:      commonResp.Count,
 	})
 }
 
@@ -100,4 +98,49 @@ func CallNetCoreAPI(url string, request interface{}, destination interface{}) er
 	}
 
 	return nil
+}
+
+// RenameAndProcessData renames keys in a slice of maps based on the provided keyMapping.
+// It takes two parameters: the input data (of type interface{}) and the keyMapping (a map of old keys to new keys).
+func RenameAndProcessData(data interface{}, keyMapping map[string]string) interface{} {
+	// Ensure that the data is a slice of interfaces (which is a []map[string]interface{})
+	if slice, ok := data.([]interface{}); ok {
+		for i, item := range slice {
+			// Ensure that each item in the slice is a map
+			if contact, ok := item.(map[string]interface{}); ok {
+				// Log the contact before renaming (for debugging)
+				fmt.Printf("Before renaming: %+v\n", contact)
+
+				// Rename keys based on the keyMapping
+				for oldKey, newKey := range keyMapping {
+					if value, exists := contact[oldKey]; exists {
+						contact[newKey] = value
+						delete(contact, oldKey)
+						// Log the renamed key for debugging
+						fmt.Printf("Renamed key: %s -> %s\n", oldKey, newKey)
+					}
+				}
+				// Update the item in the slice with the modified map
+				slice[i] = contact
+			}
+		}
+		// Return the modified slice
+		return slice
+	}
+	// If the data is not a slice, return it unchanged or handle error
+	return data
+}
+
+// Rename multiple keys in a slice of maps with values of type string or int
+func RenameMultipleKeys(maps []map[string]interface{}, keyReplacements map[string]string) {
+	for _, m := range maps {
+		for oldKey, newKey := range keyReplacements {
+			if value, exists := m[oldKey]; exists {
+				// Set the new key with the value of the old key
+				m[newKey] = value
+				// Remove the old key
+				delete(m, oldKey)
+			}
+		}
+	}
 }

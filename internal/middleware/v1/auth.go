@@ -107,6 +107,19 @@ func TokenValidatorMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
+		if authAPIResponse.Data.APIKey == "" {
+			utils.Log("Empty API key recived from NCS for this user.")
+			utils.SetResponse(c, utils.CommonResponse{
+				StatusCode: http.StatusUnauthorized,
+				Status:     "error",
+				Message:    "Something went wrong while validating authorization.",
+				Data:       nil,
+			})
+			c.Abort()
+			return
+		}
+
 		viper.Set("NETCORE_API_KEY", authAPIResponse.Data.APIKey)
 
 		c.Next()

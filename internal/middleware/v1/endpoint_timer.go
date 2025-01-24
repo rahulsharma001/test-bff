@@ -9,9 +9,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-var slowAPIThreshold = 1
+var slowAPIThreshold = 3
 
-// Middleware to handle demo mode using the demo package's DemoResponses map
+// Temp Middleware which sends slack alert if any API is taking more than a particular threshold.
 func EndpointTimer() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()

@@ -51,6 +51,7 @@ func (httpParams HTTP) DoHTTP() (string, error) {
 
 		// Execute the request
 		resp, err := client.Do(req)
+
 		if err != nil {
 			lastErr = fmt.Errorf("failed to execute HTTP request: %w", err)
 			if attempt < httpParams.Retries {

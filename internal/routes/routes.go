@@ -16,8 +16,8 @@ func SetupRouter(server *gin.Engine) {
 	// Apply CORS middleware
 	server.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{viper.GetString("ORIGIN_HOST")},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
-		AllowHeaders:     []string{"Authorization", "Content-Type", "X-Requested-With", "sec-ch-ua", "sec-ch-ua-mobile", "sec-ch-ua-platform"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Authorization", "Content-Type", "X-Requested-With", "sec-ch-ua", "sec-ch-ua-mobile", "sec-ch-ua-platform", "Demo-Panel"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {
@@ -27,7 +27,6 @@ func SetupRouter(server *gin.Engine) {
 	server.GET("/healthcheck", healthcheck)
 
 	server.Use(middleware.RequestIDMiddleware())
-	server.Use(middleware.EndpointTimer())
 
 	version := server.Group("/v1")
 	{

@@ -1,8 +1,8 @@
 package routes
 
 import (
-	brandkit_handler "cee-bff-go/internal/handlers/v1/brandkit"
-	font_handler "cee-bff-go/internal/handlers/v1/fonts"
+	attribute_handlers "cee-bff-go/internal/handlers/v1/attribute_handlers"
+	contacts_handlers "cee-bff-go/internal/handlers/v1/contacts_handlers"
 	"cee-bff-go/internal/middleware/v1"
 
 	"github.com/gin-gonic/gin"
@@ -10,27 +10,27 @@ import (
 
 func SetupRouterV1(version *gin.RouterGroup) {
 
-	brandkit := version.Group("/brandkit")
-	brandkit.Use(middleware.TokenValidatorMiddleware())
-	brandkit.Use(middleware.DemoMiddleware())
+	// Attribute routes
+	attributeRoutes := version.Group("/attributes")
 	{
-		brandkit.POST("/", brandkit_handler.GetList)
-		brandkit.GET("/count", brandkit_handler.Count)
-		brandkit.GET("/:id", brandkit_handler.Get)
-		brandkit.GET("/active", brandkit_handler.GetActive)
-		brandkit.POST("/create", brandkit_handler.Create)
-		brandkit.POST("/edit", brandkit_handler.Edit)
-		brandkit.DELETE("/delete/:id", brandkit_handler.Delete)
-		brandkit.PATCH("/activate/:id", brandkit_handler.Activate)
-		brandkit.GET("/search", brandkit_handler.Search)
-		brandkit.POST("/copy/:id", brandkit_handler.Duplicate)
+		attributeRoutes.Use(middleware.DemoMiddleware())
+		attributeRoutes.Use(middleware.EndpointTimer())
+		attributeRoutes.Use(middleware.TokenValidatorMiddleware())
+		attributeRoutes.GET("/get_attributes", attribute_handlers.GetUserAttributes)
+		attributeRoutes.POST("/save_attributes_order", attribute_handlers.SaveAttributeOrder)
 	}
 
-	fonts := version.Group("/fonts")
-	fonts.Use(middleware.TokenValidatorMiddleware())
-	fonts.Use(middleware.DemoMiddleware())
+	// Contact routes
+	contactRoutes := version.Group("/contacts")
 	{
-		fonts.POST("/create", font_handler.Create)
-		fonts.GET("/", font_handler.GetList)
+		contactRoutes.Use(middleware.DemoMiddleware())
+		contactRoutes.Use(middleware.EndpointTimer())
+		contactRoutes.Use(middleware.TokenValidatorMiddleware())
+		contactRoutes.POST("/get_contacts", contacts_handlers.GetContacts)
+		contactRoutes.GET("/get_contacts", contacts_handlers.GetContactsDropdown)
+		contactRoutes.GET("/get_user_history", contacts_handlers.GetUserHistory)
+		contactRoutes.GET("/get_user_profile", contacts_handlers.GetUserProfile)
+		contactRoutes.POST("/get_user_list_segments", contacts_handlers.GetUserSegmentList)
 	}
+
 }

@@ -1,12 +1,18 @@
 package endpoints
 
 var (
-	NetcoreAPISearchBrandkit   = "brandkit/search"
-	NetcoreAPICreateBrandkit   = "brandkit/create"
-	NetcoreAPIEditBrandkit     = "brandkit/edit"
-	NetcoreAPIDeleteBrandkit   = "brandkit/delete"
-	NetcoreAPIActivateBrandkit = "brandkit/activate"
-	NetcoreAPICopyBrandkit     = "brandkit/copy"
-	NetcoreAPICreateFont       = "brandkit/fonts/create"
-	NetcoreAPISearchFont       = "brandkit/fonts/search"
+	NetcoreAPISearchContacts        = "contact/search"
+	NetcoreAPICreateContacts        = "contact/create"
+	NetcoreAPIGetAudienceOfContacts = "contact/audience/search"
+	NetcoreAPIUpdateContacts        = "contact/update"
+	NetcoreAPIImportContacts        = "contact/import"
+	NetcoreAPIDeleteContacts        = "contact/delete"
+
+	NetcoreAPISearchAttributes = "clients/attribute/search"
+	NetcoreAPICreateAttributes = "clients/attribute/create"
+	NetcoreAPIUpdateAttributes = "clients/attribute/update"
+	NetcoreAPIDeleteAttributes = "clients/attribute/delete"
+
+	NetcoreAPIGetClientAttributes    = "client/attribute/customise/get"
+	NetcoreAPIUpdateClientAttributes = "client/attribute/customise/save"
 )
